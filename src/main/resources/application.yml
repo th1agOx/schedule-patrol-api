@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: schedule-patrol-api
+
+  config:
+    import: optional:file:.env[.properties]
+
+  mongodb:
+    host: ${MONGO_HOST:localhost}
+    port: ${MONGO_PORT:27017}
+    database: ${MONGO_APP_DATABASE}
+    username: ${MONGO_APP_USERNAME}
+    password: ${MONGO_APP_PASSWORD}
+
+    authentication-database: ${MONGO_APP_DATABASE}
+    representation:
+      uuid: standard
+
+  data:
+    mongodb:
+      # Índices são criados pelo script de init, não por anotação no código.
+      auto-index-creation: false
