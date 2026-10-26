@@ -95,7 +95,7 @@ class AgendamentoRondaTest {
 
         assertThatThrownBy(() -> AgendamentoRonda.agendar(rondaAtiva(), "Maria", periodo, AGORA))
                 .isExactlyInstanceOf(InicioNoPassadoException.class)
-                .hasMessageContaining("posterior ao instante atual");
+                .hasMessageContaining("Não é possível agendar um evento para o passado.");
     }
 
     @Test
@@ -104,7 +104,7 @@ class AgendamentoRondaTest {
 
         assertThatThrownBy(() -> AgendamentoRonda.agendar(rondaAtiva(), "Maria", periodo, AGORA))
                 .isExactlyInstanceOf(InicioNoPassadoException.class)
-                .hasMessageContaining("posterior ao instante atual");
+                .hasMessageContaining("Não é possível agendar um evento para o passado.");
     }
 
     @Test
@@ -239,7 +239,7 @@ class AgendamentoRondaTest {
 
         assertThatThrownBy(() -> agendamento.reagendar(periodoNoPassado, AGORA))
                 .isExactlyInstanceOf(InicioNoPassadoException.class)
-                .hasMessageContaining("posterior ao instante atual");
+                .hasMessageContaining("Não é possível agendar um evento para o passado.");
     }
 
     @Test
