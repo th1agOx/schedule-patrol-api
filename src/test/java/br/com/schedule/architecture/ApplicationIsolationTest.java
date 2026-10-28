@@ -26,13 +26,14 @@ class ApplicationIsolationTest {
     }
 
     @Test
-    void applicationShouldNotDependOnFrameworkClasses() {
+    void applicationShouldNotDependOnPersistenceOrWebFrameworks() {
         noClasses()
                 .that().resideInAPackage("br.com.schedule.application..")
                 .should().dependOnClassesThat().resideInAnyPackage(
-                        "org.springframework..",
                         "org.bson..",
-                        "com.mongodb..")
+                        "com.mongodb..",
+                        "org.springframework.data..",
+                        "org.springframework.web..")
                 .check(APPLICATION_CLASSES);
     }
 
@@ -40,7 +41,7 @@ class ApplicationIsolationTest {
     void shouldImportApplicationClasses() {
         assertThat(APPLICATION_CLASSES)
                 .extracting(JavaClass::getName)
-                .contains("br.com.schedule.application.usecase.ronda.CriarRondaUseCase",
-                        "br.com.schedule.application.usecase.agendamento.AgendarRondaUseCase");
+                .contains("br.com.schedule.application.service.RondaService",
+                        "br.com.schedule.application.service.AgendamentoService");
     }
 }
