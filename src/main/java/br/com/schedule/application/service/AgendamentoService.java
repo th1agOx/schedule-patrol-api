@@ -43,11 +43,6 @@ public class AgendamentoService {
         this.clock = clock;
     }
 
-    // ------------------------------------------------------------------
-    // Leituras
-    // ------------------------------------------------------------------
-
-    /** Filtros opcionais: null = não filtra por aquele campo. */
     public List<AgendamentoResponseDTO> listar(StatusAgendamento status, String responsavel, String idRonda) {
         return agendamentoRepository.listar(status, responsavel, idRonda).stream()
                 .map(AgendamentoDTOMapper::paraResponse)
@@ -57,10 +52,6 @@ public class AgendamentoService {
     public AgendamentoResponseDTO buscarPorId(String id) {
         return AgendamentoDTOMapper.paraResponse(buscar(id));
     }
-
-    // ------------------------------------------------------------------
-    // Mudanças de estado
-    // ------------------------------------------------------------------
 
     public AgendamentoResponseDTO agendar(AgendamentoRequestDTO request) {
         Ronda ronda = Optional.ofNullable(request.idRonda())
@@ -74,7 +65,7 @@ public class AgendamentoService {
         verificadorDeConflito.verificar(agendamento.getResponsavel(), agendamento.getPeriodoPrevisto());
 
         AgendamentoRonda salvo = agendamentoRepository.salvar(agendamento);
-        // Camada 2: publicar evento "agendamento criado" (dispara o e-mail)
+
         return AgendamentoDTOMapper.paraResponse(salvo);
     }
 
@@ -95,7 +86,7 @@ public class AgendamentoService {
         agendamento.cancelar(request.motivo());
 
         AgendamentoRonda salvo = agendamentoRepository.salvar(agendamento);
-        // Camada 2: publicar evento "agendamento cancelado" (dispara o e-mail)
+
         return AgendamentoDTOMapper.paraResponse(salvo);
     }
 
@@ -104,18 +95,12 @@ public class AgendamentoService {
         Periodo periodo = AgendamentoDTOMapper.paraPeriodo(request.periodoPrevisto());
 
         agendamento.reagendar(periodo, clock.instant());
-        // passa o próprio id para o verificador ignorar o agendamento que está sendo reagendado
         verificadorDeConflito.verificar(agendamento.getResponsavel(), agendamento.getPeriodoPrevisto(),
                 agendamento.getId());
 
         return AgendamentoDTOMapper.paraResponse(agendamentoRepository.salvar(agendamento));
     }
 
-    // ------------------------------------------------------------------
-    // Apoio
-    // ------------------------------------------------------------------
-
-    /** Antes repetido em 5 use cases; agora existe uma vez só. */
     private AgendamentoRonda buscar(String id) {
         return Optional.ofNullable(id)
                 .flatMap(agendamentoRepository::buscarPorId)

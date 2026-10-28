@@ -64,7 +64,7 @@ public class RondaService {
 
     public void excluir(String id) {
         Ronda ronda = buscar(id);
-        politicaDeExclusao.verificarExclusao(ronda.getId());   // regra entre agregados (domínio)
+        politicaDeExclusao.verificarExclusao(ronda.getId());   
         rondaRepository.excluir(ronda.getId());
     }
 
