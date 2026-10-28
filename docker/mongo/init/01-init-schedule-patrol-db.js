@@ -10,22 +10,22 @@ appDb.createUser({
     roles : [{ role: "readWrite", db: dbName }]
 });
 
-appDb.createCollection( 'rondas');
-appDb.createCollection('agendamentosronda');
+appDb.createCollection('rondas');
+appDb.createCollection('agendamentos');
 
 appDb.rondas.createIndex(
   { ativa: 1 },
   { name: 'idx_rondas_ativa' }
 );
  
-appDb.agendamentosronda.createIndex(
+appDb.agendamentos.createIndex(
   { responsavel: 1, status: 1 },
-  { name: 'idx_agendamentosronda_responsavel_status' }
+  { name: 'idx_agendamentos_responsavel_status' }
 );
  
-appDb.agendamentosronda.createIndex(
+appDb.agendamentos.createIndex(
   { idRonda: 1, status: 1 },
-  { name: 'idx_agendamentosronda_ronda_status' }
+  { name: 'idx_agendamentos_ronda_status' }
 );
  
 print(`[init] banco '${dbName}' pronto: usuario '${appUser}', collections e indices criados.`);
