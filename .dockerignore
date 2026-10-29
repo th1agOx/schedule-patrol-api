@@ -1,0 +1,13 @@
+.env
+# Gerado pelo build local; a imagem compila do zero
+target/
+# Não fazem parte da aplicação
+.git/
+.github/
+.idea/
+.vscode/
+*.iml
+docker/
+docker-compose.yml
+README.md
+ 
